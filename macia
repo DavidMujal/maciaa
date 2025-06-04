@@ -1,0 +1,41 @@
+# Juego de 3 en raya (Tic Tac Toe) en consola
+
+def imprimir_tablero(tablero):
+    for fila in tablero:
+        print(" | ".join(fila))
+        print("-" * 5)
+
+def comprobar_ganador(tablero, jugador):
+    for fila in tablero:
+        if all(celda == jugador for celda in fila):
+            return True
+    for col in range(3):
+        if all(tablero[fila][col] == jugador for fila in range(3)):
+            return True
+    if all(tablero[i][i] == jugador for i in range(3)):
+        return True
+    if all(tablero[i][2 - i] == jugador for i in range(3)):
+        return True
+    return False
+
+tablero = [[" " for _ in range(3)] for _ in range(3)]
+jugador_actual = "X"
+
+for turno in range(9):
+    imprimir_tablero(tablero)
+    print(f"Turno del jugador {jugador_actual}")
+    fila = int(input("Fila (0-2): "))
+    col = int(input("Columna (0-2): "))
+
+    if tablero[fila][col] == " ":
+        tablero[fila][col] = jugador_actual
+        if comprobar_ganador(tablero, jugador_actual):
+            imprimir_tablero(tablero)
+            print(f"¡El jugador {jugador_actual} gana!")
+            break
+        jugador_actual = "O" if jugador_actual == "X" else "X"
+    else:
+        print("Casilla ocupada, intenta de nuevo.")
+else:
+    imprimir_tablero(tablero)
+    print("¡Empate!")
